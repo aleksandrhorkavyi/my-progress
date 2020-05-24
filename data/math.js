@@ -32,5 +32,5 @@ const mathData = [
 ];
 
 const mathLinks = {
-
+    "23.4": "http://mathprofi.ru/predely_primery_reshenii.html"
 };

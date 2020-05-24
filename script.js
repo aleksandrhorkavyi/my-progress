@@ -14,7 +14,7 @@ const yAxis = [
 ];
 
 const xAxis = [
-    '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
     '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
 ];
@@ -27,7 +27,18 @@ function getPointCategoryName(point, dimension) {
     return axis.categories[point[isY ? 'y' : 'x']];
 }
 
-function initChart(id, year, data) {
+function getPointLink(point, links) {
+    let day = point.series['xAxis'].categories[point['x']]
+    let month = point.series['yAxis'].categories[point['y']]
+
+    let dayIndex = day - 1;
+    let monthIndex =  yAxis.findIndex( elem => elem === month);
+
+    let link = links[`${dayIndex}.${monthIndex}`];
+    return  typeof link !== 'undefined' ? link : '';
+}
+
+function initChart(id, year, data, links) {
     Highcharts.chart(id, {
         chart: {
             type: 'heatmap',
@@ -74,7 +85,8 @@ function initChart(id, year, data) {
             formatter: function () {
                 return '<b>' + getPointCategoryName(this.point, 'y')
                     + ', ' + getPointCategoryName(this.point, 'x') + '</b> | '
-                    + '<b>' + this.point.value + '</b>' + ' хвилин.';
+                    + '<b>' + this.point.value + '</b>' + ' хвилин. '
+                    + getPointLink(this.point, links);
             }
         },
         series: [{
@@ -105,8 +117,8 @@ function initChart(id, year, data) {
     });
 }
 
-initChart('container-english', 'English', englishData);
-initChart('container-math', 'Mathematic', mathData);
-initChart('container-ml', 'Machine Learning', mlData);
-initChart('container-python', 'Python', pythonData);
+initChart('container-english', 'English', englishData, englishLinks);
+initChart('container-math', 'Mathematic', mathData, mathLinks);
+initChart('container-ml', 'Machine Learning', mlData, mlLinks);
+initChart('container-python', 'Python', pythonData, pythonLinks);
 

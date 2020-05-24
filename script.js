@@ -82,11 +82,16 @@ function initChart(id, year, data, links) {
             symbolHeight: 280
         },
         tooltip: {
+            style: {
+                pointerEvents: 'auto'
+            },
             formatter: function () {
+                let link = getPointLink(this.point, links);
+
                 return '<b>' + getPointCategoryName(this.point, 'y')
                     + ', ' + getPointCategoryName(this.point, 'x') + '</b> | '
                     + '<b>' + this.point.value + '</b>' + ' хвилин. '
-                    + getPointLink(this.point, links);
+                    + '<br><a href="' + link + '">' + link + '</a>';
             }
         },
         series: [{
